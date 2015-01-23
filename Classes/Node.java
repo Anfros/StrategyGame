@@ -70,9 +70,9 @@ public class Node
             return Color.black;
         switch(creatures.poll().team())
         {
-            case 0: return Color.black;
-            case 1: return Color.blue;
-            case 2: return Color.red;
+            case  0: return Color.black;
+            case  1: return Color.blue;
+            case -1: return Color.red;
         }       
         return Color.black;
     }

@@ -1,6 +1,7 @@
 public class Creature
 {
     //Default team is no team
+    //[-1 enemy] [0 neutral] [1 friendly] 
     private int myTeam = 0;
     //Default influence is 1
     private double infl = 1;
