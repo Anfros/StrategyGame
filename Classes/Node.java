@@ -82,7 +82,7 @@ public class Node
     {
         double infl = 0;
         for(Creature c : creatures)
-            infl += c.influence();
+            infl += c.influence()*c.team();
         return infl;
     }
 
