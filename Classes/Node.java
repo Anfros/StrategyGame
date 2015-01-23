@@ -68,9 +68,13 @@ public class Node
     {
         if(creatures.size() == 0)
             return Color.black;
-        if(creatures.poll().team = 1)
-            return Color.blue;
-        return Color.red;
+        switch(creatures.poll().team())
+        {
+            case 0: return Color.black;
+            case 1: return Color.blue;
+            case 2: return Color.red;
+        }       
+        return Color.black;
     }
 
     //Calculate the influence of the node
