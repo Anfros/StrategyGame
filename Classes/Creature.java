@@ -6,7 +6,7 @@ public class Creature
     //Default influence is 1
     private double infl = 1;
     //The creature has a parent node
-    private Node parent; 
+    public Node parent; 
     
     //Fairly obvious constructor
     public Creature(Node parent, int team)

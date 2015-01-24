@@ -11,6 +11,8 @@ public class Node
     private LinkedList<Node> adjacent;
     //References to the creatures currently on the node
     public LinkedList<Creature> creatures;
+    //References to the creatures that will be put on the node after all moves are done
+    public LinkedList<Creature> creaturesBuffer;
     //The radius of the node
     private int r;
 
@@ -22,6 +24,7 @@ public class Node
         position  = new Point();
         adjacent  = new LinkedList<Node>();
         creatures = new LinkedList<Creature>();
+        creaturesBuffer = new LinkedList<Creature>();
     }
 
     //The constructor to give the node a starting point 
@@ -31,6 +34,7 @@ public class Node
         position  = new Point(p);
         adjacent  = new LinkedList<Node>();
         creatures = new LinkedList<Creature>();
+        creaturesBuffer = new LinkedList<Creature>();
     }
 
     //Add a new neighbor to the adjacency list
@@ -43,6 +47,7 @@ public class Node
     public void addCreature(Creature c)
     {
         creatures.add(c);
+        c.parent = this;
     }
 
     //Remove a creature from the node
@@ -95,4 +100,45 @@ public class Node
         return infl;
     }
 
+    //Resolve the combat on the node
+    public void resolve()
+    {
+        creaturesBuffer.addAll(creatures);
+        if(creaturesBuffer.size() == 0)
+            return;
+        Creature c = creaturesBuffer.getFirst();
+        creatures = new LinkedList<Creature>();
+        Iterator<Creature> iter = creaturesBuffer.iterator();
+        while(iter.hasNext())
+        {
+            Creature buffered = iter.next();
+            iter.remove();
+
+            //Two creatures from different teams kill each other
+            if(c.team() != buffered.team())
+            {
+                creatures.remove(c);
+                if(creatures.size() == 0)
+                {
+                    if(!iter.hasNext())
+                        break;
+                    creatures.add(iter.next());
+                }
+                c = creatures.getLast();
+                continue;
+            }
+
+            c = buffered;
+            creatures.add(c);
+        }
+        creaturesBuffer = new LinkedList<Creature>();
+    }
 }
+
+
+
+
+
+
+
+
