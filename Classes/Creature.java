@@ -27,4 +27,9 @@ public class Creature
         return myTeam;
     }
 
+    //Set the parent node
+    public void setParent(Node p)
+    {
+        parent = p;
+    }
 }
