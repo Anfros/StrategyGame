@@ -4,20 +4,22 @@ import java.util.LinkedList;
 import java.awt.event.*;
 
 
-public class Field extends JPanel implements ActionListener
+public class Field extends JPanel implements ActionListener 
 {
     public LinkedList<Node> nodes;
-    private JButton turn, move;
+    private JButton turn;
     private LinkedList<Action> actions;
+    private Player p1;
 
-    public Field(LinkedList<Node> nodes, JButton t, JButton m)
+    public Field(LinkedList<Node> nodes, JButton t)
     {
         this.turn = t;
-        this.move = m;
         setPreferredSize(new Dimension(800, 800));
         setBackground(Color.green);
         this.nodes = nodes;
         actions = new LinkedList<Action>();
+        p1 = new Player(this);
+        addMouseListener(p1);
     }
 
     @Override
@@ -28,6 +30,11 @@ public class Field extends JPanel implements ActionListener
             node.drawLines(g);
         for(Node node : nodes)
             node.draw(g);
+    }
+
+    public void addAction(Action a)
+    {
+        actions.add(a);
     }
 
     public void actionPerformed(ActionEvent e)
@@ -41,15 +48,16 @@ public class Field extends JPanel implements ActionListener
             n = nodes.getLast();
             n.creatures.add(new Creature(n, 1));
             for(Action action : actions)
+            {
+                for(Action action2 : actions)
+                    action.solveConflict(action2);
+            }
+            for(Action action : actions)
                 action.execute();
             actions = new LinkedList<Action>();
             for(Node node : nodes)
                 node.resolve();
             repaint();
-        }
-        if(e.getSource() == move)
-        {
-            actions.add(new Move(nodes.getFirst(), nodes.getLast()));
         }
     }
 

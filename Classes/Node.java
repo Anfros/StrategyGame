@@ -1,6 +1,7 @@
 //Import swing for JPanel and awt for Graphics
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Point;
 import java.util.*;
 
 public class Node
@@ -8,7 +9,7 @@ public class Node
     //Where the Node is in space
     private Point position;
     //References to the node's neighbors
-    private LinkedList<Node> adjacent;
+    public LinkedList<Node> adjacent;
     //References to the creatures currently on the node
     public LinkedList<Creature> creatures;
     //References to the creatures that will be put on the node after all moves are done
@@ -61,7 +62,19 @@ public class Node
     {
        this.position = new Point(p);
     }
-   
+    
+    //Get the radius of the node
+    public int getR()
+    {
+        return r;
+    }
+     
+    //Get the position of the node
+    public Point getPosition()
+    {
+        return position;
+    }
+     
     //Draw all the creatures occupying the node and draw all paths to adjacent nodes 
     public void draw(Graphics g)
     {
