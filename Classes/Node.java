@@ -7,7 +7,7 @@ import java.util.*;
 public class Node
 {
     //Where the Node is in space
-    private Point position;
+    protected Point position;
     //References to the node's neighbors
     public LinkedList<Node> adjacent;
     //References to the creatures currently on the node
@@ -15,7 +15,7 @@ public class Node
     //References to the creatures that will be put on the node after all moves are done
     public LinkedList<Creature> creaturesBuffer;
     //The radius of the node
-    private int r;
+    protected int r;
 
 
     //The default constructor
@@ -80,8 +80,10 @@ public class Node
     {
         //Draw a circle of various size depending on how many creature are on the node
         g.setColor(allegenceColor()); //Find the color of the node
-        r = creatures.size()*2; //Grow the circle if the number of creatures on the node is large
-        g.fillOval(position.x - r/2- 1, position.y - r/2 - 1, 2+r, 2+r);
+        r = creatures.size()*2+20; //Grow the circle if the number of creatures on the node is large
+        if(r > 30)
+            r = 30;
+        g.fillOval(position.x - r/2, position.y - r/2, r, r);
     }
 
     public void drawLines(Graphics g)

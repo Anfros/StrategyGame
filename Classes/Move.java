@@ -44,4 +44,10 @@ public class Move extends Action<Move>
         }
     }
 
+    //Check if the move is the same as some other move
+    public boolean isDuplicate(Move m)
+    {
+        return m.origin == this.origin && m.target == this.target && this != m;
+    }
 }
+
