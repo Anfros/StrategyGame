@@ -22,7 +22,7 @@ public class Player implements MouseListener
     public void mouseClicked(MouseEvent e)
     {
         Point mousePosition = e.getPoint();
-        if(selected == null) //We need to select a node
+        if(selected == null && e.getButton() == MouseEvent.BUTTON1) //We need to select a node
         {
             for(Node n : parent.nodes)
             {
@@ -39,7 +39,7 @@ public class Player implements MouseListener
                 }
             }
         }
-        else //We have a node selected, now we see if we have clicked another node and if so, can we move to it in one move
+        else if (selected != null && e.getButton() == MouseEvent.BUTTON3) //We have a node selected, now we see if we have clicked another node and if so, can we move to it in one move
         {
             for(Node n : parent.nodes)
             {

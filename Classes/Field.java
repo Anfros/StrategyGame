@@ -54,7 +54,6 @@ public class Field extends JPanel implements ActionListener
         {
             //Spawn creatures on the spawn nodes
             spawn1.creatures.add(new Creature(spawn1, -1));
-            spawn1.creatures.add(new Creature(spawn1, -1));
             spawn2.creatures.add(new Creature(spawn2, 1));
             
             //Resolve conflicts between actions and
