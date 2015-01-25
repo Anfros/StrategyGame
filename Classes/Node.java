@@ -3,8 +3,9 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.*;
+import javax.swing.*;
 
-public class Node
+public class Node extends JLabel
 {
     //Where the Node is in space
     protected Point position;
@@ -21,6 +22,7 @@ public class Node
     //The default constructor
     public Node()
     {
+        this.setHorizontalAlignment(JLabel.CENTER);
         r = 0;
         position  = new Point();
         adjacent  = new LinkedList<Node>();
@@ -31,6 +33,7 @@ public class Node
     //The constructor to give the node a starting point 
     public Node(Point p)
     {
+        this.setHorizontalAlignment(JLabel.CENTER);
         r = 0;
         position  = new Point(p);
         adjacent  = new LinkedList<Node>();
@@ -84,6 +87,9 @@ public class Node
         if(r > 30)
             r = 30;
         g.fillOval(position.x - r/2, position.y - r/2, r, r);
+        this.setText(Integer.toString(creatures.size()));
+        this.setBounds(position.x - 10, position.y - 10, 20, 20);
+        this.setForeground(Color.WHITE);
     }
 
     public void drawLines(Graphics g)

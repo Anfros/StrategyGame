@@ -26,6 +26,8 @@ public class Field extends JPanel implements ActionListener
         addMouseListener(p1);
         spawn1 = s1;
         spawn2 = s2;
+        for(Node n : nodes)
+            this.add(n);
     }
 
     @Override
