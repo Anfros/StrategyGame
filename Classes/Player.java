@@ -34,6 +34,7 @@ public class Player implements MouseListener
                 if(Math.sqrt(dx*dx+dy*dy)<radius) //If we are close to a node, select it and finish
                 {
                     selected = n;
+                    parent.repaint();
                     return;
                 }
             }
@@ -57,8 +58,20 @@ public class Player implements MouseListener
             }
         }
         selected = null;
+        parent.repaint();
     }    
-    
+   
+    //For drawing a circle around a selected node
+    public void draw(Graphics g)
+    {
+        if(selected == null)
+            return;
+        g.setColor(Color.YELLOW);
+        Point position = selected.getPosition();
+        int r = selected.getR()+2;
+        g.fillOval(position.x-r/2, position.y-r/2, r, r);
+
+    }
     //Todo: fix to make sure clicks are not registered outside the frame
     @Override
     public void mouseExited(MouseEvent e)

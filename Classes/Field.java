@@ -32,6 +32,8 @@ public class Field extends JPanel implements ActionListener
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
+        //Draw whatever the player class wants to draw
+        p1.draw(g);
         //Draw all lines between nodes
         for(Node node : nodes)
             node.drawLines(g);
