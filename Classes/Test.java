@@ -14,7 +14,7 @@ public class Test extends JFrame
     public Test()
     {
         pan = new JPanel();
-        n = new Node(new Point(100, 100));
+        n = new Node(new Point(110, 110));
         n2 = new Node(new Point(500, 500));
         n3 = new Node(new Point(500, 300));
         LinkedList<Node> temp1 = new LinkedList<Node>();
@@ -24,7 +24,7 @@ public class Test extends JFrame
         Hex h = new Hex(temp1);
         LinkedList<Hex> hxs = new LinkedList<Hex>();
         hxs.add(h);
-        SpawnNode s1 = new SpawnNode(new Point(20, 20), 10, -1);
+        SpawnNode s1 = new SpawnNode(new Point(30, 30), 10, -1);
         SpawnNode s2 = new SpawnNode(new Point(580, 580), 10, 1);
         s1.addAdjacent(n);
         s2.addAdjacent(n2);

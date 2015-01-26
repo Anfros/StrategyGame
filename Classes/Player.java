@@ -98,15 +98,17 @@ public class Player extends MouseInputAdapter implements ActionListener
     //For drawing a circle around a selected node
     public void draw(Graphics g)
     {
-        
         if(selected == null)
             return;
+        //Draw the selected node
         g.setColor(Color.ORANGE);
         Point position = selected.getPosition();
         int r = selected.getR()+6;
         g.fillOval(position.x-r/2, position.y-r/2, r, r);
+        
         if(targeted == null)
             return;
+        //Draw the targeted node
         g.setColor(Color.GREEN);
         position = targeted.getPosition();
         r = targeted.getR()+6;

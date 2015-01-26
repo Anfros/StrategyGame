@@ -1,5 +1,7 @@
 import java.awt.Point;
 import java.util.LinkedList;
+import java.awt.Graphics;
+import java.awt.Color;
 
 public class SpawnNode extends Node
 {
@@ -26,6 +28,18 @@ public class SpawnNode extends Node
     {
         super.resolve();
         takeDamage();
+    }
+    
+    //Draw the node
+    public void draw(Graphics g)
+    {
+        super.draw(g);
+        //underlay the red bar
+        g.setColor(Color.RED);
+        g.fillRect(position.x - 15, position.y - 20, 30, 5);
+        //Overlay what is left of the green bar
+        g.setColor(Color.GREEN);
+        g.fillRect(position.x - 15, position.y - 20, (int)(30*(hp/maxHp)), 5);
     }
 
     //To resolve combat on the node, and subtract hp at the end of it

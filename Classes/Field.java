@@ -44,7 +44,9 @@ public class Field extends JPanel implements ActionListener
             node.drawLines(g);
         //Draw all nodes
         for(Node node : nodes)
+        {
             node.draw(g);
+        }
         p1.draw2(g);
     }
 
