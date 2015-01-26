@@ -1,22 +1,31 @@
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.event.MouseListener;
 import java.lang.Math.*;
 
 
 //The player class, can be extended later
-public class Player implements MouseListener
+public class Player extends MouseInputAdapter 
 {
     //For keeping track on what node is currently clicked
     private Node selected;
     //For knowing about the complete list of nodes etc. etc. etc.
     private Field parent;
-
+    //To keep track of if the mouse is dragging or not
+    private boolean drag;
+    //To keep track of the start position of a drag
+    private Point dragP;
+    //To draw a rectangle
+    private Rectangle dragRectangle;
     //Initialize a new player
     public Player(Field f)
     {
+        dragP = new Point(0, 0);
         parent = f;
         selected = null;
+        drag = false;
+        dragRectangle = new Rectangle(0, 0, 0, 0);
     }
 
     public void mouseClicked(MouseEvent e)
@@ -64,6 +73,11 @@ public class Player implements MouseListener
     //For drawing a circle around a selected node
     public void draw(Graphics g)
     {
+        if(drag)
+        {
+            g.setColor(Color.BLACK);
+            ((Graphics2D)g).draw(dragRectangle);
+        }
         if(selected == null)
             return;
         g.setColor(Color.YELLOW);
@@ -84,11 +98,78 @@ public class Player implements MouseListener
     {
     }
 
+    //Stop dragging
     public void mouseReleased(MouseEvent e)
     {
+        if(e.getButton() == MouseEvent.BUTTON3)
+            return;
+        drag = false;
+        parent.repaint();
     }
 
+    //Start dragging
     public void mousePressed(MouseEvent e)
     {
+        if(e.getButton() == MouseEvent.BUTTON3)
+            return;
+        if(selected != null)
+            selected = null;
+        drag = true;
+        dragP = e.getPoint();
+        dragRectangle = new Rectangle(dragP.x, dragP.y, 0, 0);
+        editSelect(e);
+        parent.repaint();
     }
+    
+    public void mouseDragged(MouseEvent e)
+    {
+        editSelect(e);
+        parent.repaint();
+    }
+
+    public void editSelect(MouseEvent e)
+    {
+        int xSize = e.getX() - dragP.x,
+            ySize = e.getY() - dragP.y;
+        
+        fixDragRectangle(xSize, ySize);
+
+        if(selected != null)
+            return;
+        for(Node n : parent.nodes)
+        {
+            //This is the point you're looking for?
+            Point np = n.getPosition();
+            if(dragRectangle.contains(np))
+            {
+                selected = n;
+                return;
+            }
+        } 
+    }
+
+    //Make sure drag rect always has the top left as its corner
+    private void fixDragRectangle(int xSize, int ySize)
+    {
+        int x = dragP.x, y = dragP.y;
+        x = Math.min(x, x+xSize);
+        y = Math.min(y, y+ySize);
+        xSize = Math.abs(xSize);
+        ySize = Math.abs(ySize);
+        dragRectangle = new Rectangle(x, y, xSize, ySize);
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

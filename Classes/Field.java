@@ -24,6 +24,7 @@ public class Field extends JPanel implements ActionListener
         actions = new LinkedList<Action>();
         p1 = new Player(this);
         addMouseListener(p1);
+        addMouseMotionListener(p1);
         spawn1 = s1;
         spawn2 = s2;
         for(Node n : nodes)
@@ -54,10 +55,7 @@ public class Field extends JPanel implements ActionListener
     {
         if(e.getSource() == turn)
         {
-            //Spawn creatures on the spawn nodes
-            spawn1.creatures.add(new Creature(spawn1, -1));
-            spawn2.creatures.add(new Creature(spawn2, 1));
-            
+                        
             //Resolve conflicts between actions and
             //Remove duplicate actions
             Iterator<Action> act1 = actions.iterator();
@@ -82,6 +80,9 @@ public class Field extends JPanel implements ActionListener
             actions = new LinkedList<Action>();
             for(Node node : nodes)
                 node.resolve();
+            //Spawn creatures on the spawn nodes
+            spawn1.creatures.add(new Creature(spawn1, -1));
+            spawn2.creatures.add(new Creature(spawn2, 1));
             repaint();
         }
     }
