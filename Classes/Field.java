@@ -13,9 +13,10 @@ public class Field extends JPanel implements ActionListener
     private LinkedList<Action> actions;
     private Player p1;
     private SpawnNode spawn1, spawn2;
+    private LinkedList<Hex> hexes;
 
     //Copy all relevant data and make a new area on the screen to display the playing field
-    public Field(SpawnNode s1, SpawnNode s2, LinkedList<Node> nodes, JButton t)
+    public Field(SpawnNode s1, SpawnNode s2, LinkedList<Node> nodes, JButton t, LinkedList<Hex> hexes)
     {
         this.turn = t;
         setPreferredSize(new Dimension(800, 800));
@@ -29,6 +30,7 @@ public class Field extends JPanel implements ActionListener
         spawn2 = s2;
         for(Node n : nodes)
             this.add(n);
+        this.hexes = hexes;
     }
 
     @Override
@@ -81,6 +83,13 @@ public class Field extends JPanel implements ActionListener
             actions = new LinkedList<Action>();
             for(Node node : nodes)
                 node.resolve();
+            for(Hex h : hexes)
+            {
+                if(h.team() < 0)
+                    spawn1.creatures.add(new Creature(spawn1, -1));
+                else if(h.team() > 0)
+                    spawn2.creatures.add(new Creature(spawn2, 1));
+            }
             //Spawn creatures on the spawn nodes
             spawn1.creatures.add(new Creature(spawn1, -1));
             spawn2.creatures.add(new Creature(spawn2, 1));
