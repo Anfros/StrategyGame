@@ -42,10 +42,10 @@ public class Node extends JLabel
     }
 
     //Add a new neighbor to the adjacency list
-    public void addAdjacent(Node adj)
+    public static void addAdjacent(Node adj, Node adj2)
     {
-        adjacent.addLast(adj);
-        adj.adjacent.addLast(this);
+        adj.adjacent.addLast(adj2);
+        adj2.adjacent.addLast(adj);
     }
 
     //Add a creature to the node
