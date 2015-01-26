@@ -45,6 +45,7 @@ public class Node extends JLabel
     public void addAdjacent(Node adj)
     {
         adjacent.addLast(adj);
+        adj.adjacent.addLast(this);
     }
 
     //Add a creature to the node
