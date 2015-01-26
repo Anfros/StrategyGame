@@ -1,15 +1,16 @@
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.event.MouseListener;
 import java.lang.Math.*;
-
+import javax.swing.Timer;
 
 //The player class, can be extended later
-public class Player extends MouseInputAdapter 
+public class Player extends MouseInputAdapter implements ActionListener 
 {
     //For keeping track on what node is currently clicked
-    private Node selected;
+    private Node selected, targeted;
     //For knowing about the complete list of nodes etc. etc. etc.
     private Field parent;
     //To keep track of if the mouse is dragging or not
@@ -18,9 +19,14 @@ public class Player extends MouseInputAdapter
     private Point dragP;
     //To draw a rectangle
     private Rectangle dragRectangle;
+    //To keep track of how long the draw time is
+    private Timer timer;
+
     //Initialize a new player
     public Player(Field f)
     {
+        timer = new Timer(200, this);
+        timer.stop();
         dragP = new Point(0, 0);
         parent = f;
         selected = null;
@@ -50,6 +56,7 @@ public class Player extends MouseInputAdapter
         }
         else if (selected != null && e.getButton() == MouseEvent.BUTTON3) //We have a node selected, now we see if we have clicked another node and if so, can we move to it in one move
         {
+            targeted = null;
             for(Node n : parent.nodes)
             {
                 //This is the point you're looking for?
@@ -62,29 +69,59 @@ public class Player extends MouseInputAdapter
                     if(selected.adjacent.contains(n))//We have found a node and it is adjacent to the selected node
                     {
                         parent.addAction(new Move(selected, n));//Move to the node from the selected node
+                        targeted = n;
+                        timer.start();
+                        parent.repaint();
+                        return;
                     }
                 }
             }
         }
+       
         selected = null;
+        targeted = null;
         parent.repaint();
     }    
-   
+    
+    //For stopping the timer
+    public void actionPerformed(ActionEvent e)
+    {
+        if (e.getSource() == timer)
+           timer.stop();
+        else
+            return;
+        selected = null;
+        targeted = null;
+        parent.repaint();
+    }
+
     //For drawing a circle around a selected node
     public void draw(Graphics g)
+    {
+        
+        if(selected == null)
+            return;
+        g.setColor(Color.ORANGE);
+        Point position = selected.getPosition();
+        int r = selected.getR()+6;
+        g.fillOval(position.x-r/2, position.y-r/2, r, r);
+        if(targeted == null)
+            return;
+        g.setColor(Color.GREEN);
+        position = targeted.getPosition();
+        r = targeted.getR()+6;
+        g.fillOval(position.x-r/2, position.y-r/2, r, r);
+
+    }
+
+    //For drawing the rectangle
+    public void draw2(Graphics g)
     {
         if(drag)
         {
             g.setColor(Color.BLACK);
             ((Graphics2D)g).draw(dragRectangle);
         }
-        if(selected == null)
-            return;
-        g.setColor(Color.YELLOW);
-        Point position = selected.getPosition();
-        int r = selected.getR()+2;
-        g.fillOval(position.x-r/2, position.y-r/2, r, r);
-
     }
     //Todo: fix to make sure clicks are not registered outside the frame
     @Override

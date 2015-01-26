@@ -19,7 +19,7 @@ public class Field extends JPanel implements ActionListener
     {
         this.turn = t;
         setPreferredSize(new Dimension(800, 800));
-        setBackground(Color.green);
+        setBackground(Color.WHITE);
         this.nodes = nodes;
         actions = new LinkedList<Action>();
         p1 = new Player(this);
@@ -43,6 +43,7 @@ public class Field extends JPanel implements ActionListener
         //Draw all nodes
         for(Node node : nodes)
             node.draw(g);
+        p1.draw2(g);
     }
 
     //Push an action to the list of actions to be performed
